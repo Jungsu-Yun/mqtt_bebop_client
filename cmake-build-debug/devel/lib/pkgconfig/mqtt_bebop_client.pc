@@ -1,0 +1,8 @@
+prefix=/home/jungsu/catkin_ws/src/mqtt_bebop_client/cmake-build-debug/devel
+
+Name: mqtt_bebop_client
+Description: Description of mqtt_bebop_client
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/jungsu/catkin_ws/src/mqtt_bebop_client/cmake-build-debug/devel/lib 
+Requires: 

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+        <title>GalagoMap</title>
+        <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=l9afhq1ztf&submodules=geocoder"></script>
+    </head>
+    <body>
+    <div id="map" style="width:100%;height:410px;"></div>
+    
+    <script>
+        var iscontinue = true;
+        var map = new naver.maps.Map("map", {
+                center: new naver.maps.LatLng(36.520407, 127.172932),
+                zoom: 15,
+                mapTypeId: naver.maps.MapTypeId.HYBRID
+            }),
+            infoWindow = null;
+
+        function end()
+        {
+            iscontinue = false;
+        }
+
+        naver.maps.Event.addListener(map, 'rightclick', start);
+        naver.maps.addListener(map, 'rightclick', end);
+
+        function start()
+        {
+            var polyline = new naver.maps.Polyline({
+            map: map,
+            path: [],
+            endIcon: naver.maps.PointingIcon.BLOCK_ARROW,
+            strokeColor: '#bae204',
+            strokeWeight: 3
+            });
+            
+            naver.maps.Event.addListener(map, 'click', function(e) {
+                var point = e.coord;
+                    lat = point.lat();
+                    lng = point.lng();
+
+                    var path = polyline.getPath();
+                    path.push(point);
+                    var latlng = e.coord;
+
+                    // var marker = new naver.maps.Marker({
+                    //                 map: map,
+                    //                 position: point
+                    // });
+            });
+        }
+
+        // var polyline = new naver.maps.Polyline({
+        //     map: map,
+        //     path: [],
+        //     endIcon: naver.maps.PointingIcon.BLOCK_ARROW,
+        //     strokeColor: '#bae204',
+        //     strokeWeight: 3
+        //     });
+
+        function setmark(lat, lng)
+        {
+            var point = new naver.maps.LatLng(lat, lng);
+            var path = polyline.getPath();
+            path.push(point);
+
+            new naver.maps.Marker({
+                map: map,
+                position: new naver.maps.LatLng(lat, lng)
+            });
+        }
+    
+        function nowposition(lat, lng)
+        {
+            var position = new naver.maps.LatLng(lat, lng);
+
+            var markerOptions = {
+                position: position.destinationPoint(90, 15),
+                map: map,
+                icon: {
+                url: '/home/yjs/catkin_ws/src/galago/src/icon/dot-and-circle-yellow.png',
+                size: new naver.maps.Size(30, 30),
+                origin: new naver.maps.Point(0, 0),
+                anchor: new naver.maps.Point(25, 26)
+                }
+            };
+            var marker = new naver.maps.Marker(markerOptions);
+            map.panTo(position);
+        }
+
+        function sethomepoint(lat, lng)
+        {
+            var position = new naver.maps.LatLng(lat, lng);
+
+            var markerOptions = {
+                position: position.destinationPoint(90, 15),
+                map: map,
+                icon: {
+                url: '/home/yjs/catkin_ws/src/galago/src/icon/homepoint.png',
+                size: new naver.maps.Size(32, 50),
+                origin: new naver.maps.Point(0, 0),
+                anchor: new naver.maps.Point(25, 26)
+                }
+            };
+            var marker = new naver.maps.Marker(markerOptions);
+        }
+
+        // naver.maps.Event.addListener(map, 'rightclick', function(e) {
+        //         start();
+        // });
+
+    </script>
+    </body>
+</html>
